@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Login</h1>
+  <p class="subtitle">Get JWT token after successful login</p>
+
+  <form id="loginForm" class="card">
+
+    <label for="username">Username</label>
+    <input type="text" id="username" placeholder="Enter username" required>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Enter password" required>
+
+    <button type="submit" class="btn full">Login</button>
+
+    <p id="message" class="message"></p>
+
+    <p class="small-text">
+      New user?
+      <a href="/register.html">Register here</a>
+    </p>
+  </form>
+</div>
+
+<script src="/js/login.js"></script>
+</body>
+</html>

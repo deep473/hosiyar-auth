@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container dashboard">
+
+    <div class="top-bar">
+        <div>
+            <h1>Dashboard</h1>
+            <p id="userInfo" class="subtitle"></p>
+        </div>
+
+        <button id="logoutBtn" class="btn danger">Logout</button>
+    </div>
+
+    <div class="card">
+        <h2>Protected APIs</h2>
+        <p class="small-text">
+            These APIs require JWT token in Authorization header.
+        </p>
+
+        <div class="button-group vertical">
+            <button id="resultBtn" class="btn full">View Assessment Result</button>
+            <button id="createBtn" class="btn secondary full">Create Assessment</button>
+        </div>
+
+        <div id="apiResponse" class="response-box">
+            API response will appear here.
+        </div>
+    </div>
+
+</div>
+
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

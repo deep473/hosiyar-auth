@@ -42,6 +42,16 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
+
+                        .requestMatchers(
+                                "/",
+                                "/index.html",
+                                "/register.html",
+                                "/login.html",
+                                "/dashboard.html",
+                                "/css/**",
+                                "/js/**"
+                        ).permitAll()
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/assessments")

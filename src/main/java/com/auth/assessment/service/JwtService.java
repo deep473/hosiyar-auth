@@ -10,9 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -26,16 +26,15 @@ public class JwtService {
 
     public String generateToken(UserDetails userDetails) {
 
-        Map<String, Object> claims = new HashMap<>();
+        List<String> roles = new ArrayList<>();
 
-        claims.put("roles", userDetails.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList());
+        for (GrantedAuthority authority : userDetails.getAuthorities()) {
+            roles.add(authority.getAuthority());
+        }
 
         return Jwts.builder()
-                .claims(claims)
                 .subject(userDetails.getUsername())
+                .claim("roles", roles)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSigningKey())
@@ -46,15 +45,29 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public List<String> extractRoles(String token) {
 
-        String username = extractUsername(token);
+        Claims claims = extractAllClaims(token);
 
-        return username.equals(userDetails.getUsername())
-                && !isTokenExpired(token);
+        Object rolesObject = claims.get("roles");
+
+        List<String> roles = new ArrayList<>();
+
+        if (rolesObject instanceof List<?> rolesList) {
+            for (Object role : rolesList) {
+                roles.add(role.toString());
+            }
+        }
+
+        return roles;
+    }
+
+    public boolean isTokenValid(String token) {
+        return !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
+
         Date expiration = extractClaim(token, Claims::getExpiration);
 
         return expiration.before(new Date());
